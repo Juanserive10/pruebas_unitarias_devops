@@ -12,6 +12,7 @@ from src.descuentos import (
     calcular_precio_final,
     descuento_por_volumen,
     descuento_cumulativo,
+    descuento_apilado,
 )
 
 
@@ -134,3 +135,45 @@ def test_descuentos_acumulativos_vacios():
     # Assert
     assert resultado == esperado
 
+
+
+# PRUEBA 9: Descuentos apilados normales
+def test_descuento_apilado_normal():
+    # Arrange
+    precio = 100000
+    descuentos = [10, 20]
+    esperado = 70000
+
+    # Act
+    resultado = descuento_apilado(precio, descuentos)
+
+    # Assert
+    assert resultado == pytest.approx(esperado)
+
+
+# PRUEBA 10: Descuentos apilados superiores al 100 %
+def test_descuento_apilado_supera_cien():
+    # Arrange
+    precio = 100000
+    descuentos = [50, 60]
+    esperado = 0
+
+    # Act
+    resultado = descuento_apilado(precio, descuentos)
+
+    # Assert
+    assert resultado == pytest.approx(esperado)
+
+
+# PRUEBA 11: Descuentos apilados vacíos
+def test_descuento_apilado_vacio():
+    # Arrange
+    precio = 100000
+    descuentos = []
+    esperado = 100000
+
+    # Act
+    resultado = descuento_apilado(precio, descuentos)
+
+    # Assert
+    assert resultado == esperado
