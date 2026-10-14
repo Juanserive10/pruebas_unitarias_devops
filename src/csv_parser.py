@@ -29,7 +29,7 @@ def leer_csv_como_lista(contenido_csv):
     return resultado
 
 def csv_a_diccionarios(contenido_csv, tiene_cabecera=True):
-    """Convierte contenido CSV a una lista de diccionarios."""
+    """Convierte contenido CSV en diccionarios con columnas uniformes."""
     lineas = leer_csv_como_lista(contenido_csv)
 
     if not lineas:
@@ -40,17 +40,22 @@ def csv_a_diccionarios(contenido_csv, tiene_cabecera=True):
         datos = lineas[1:]
 
         resultado = []
+
         for fila in datos:
-            # BUG 2: No maneja filas con diferente número de columnas
             fila_dict = {}
-            for i, valor in enumerate(fila):
-                if i < len(cabeceras):
-                    fila_dict[cabeceras[i]] = valor
+
+            for i, cabecera in enumerate(cabeceras):
+                if i < len(fila):
+                    fila_dict[cabecera] = fila[i]
+                else:
+                    fila_dict[cabecera] = ""
+
             resultado.append(fila_dict)
 
         return resultado
 
     return []
+
 
 def validar_csv(contenido_csv):
     """Valida si el contenido CSV tiene formato básico correcto."""
