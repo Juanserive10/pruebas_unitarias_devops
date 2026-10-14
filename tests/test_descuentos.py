@@ -177,3 +177,147 @@ def test_descuento_apilado_vacio():
 
     # Assert
     assert resultado == esperado
+
+
+# PRUEBA 12: Precio negativo en aplicar descuento
+def test_aplicar_descuento_precio_negativo():
+    # Arrange
+    precio = -100
+    porcentaje = 10
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        aplicar_descuento(precio, porcentaje)
+
+
+# PRUEBA 13: Precio negativo en calcular descuento
+def test_calcular_descuento_precio_negativo():
+    # Arrange
+    precio = -200
+    porcentaje = 20
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        calcular_descuento(precio, porcentaje)
+
+
+# PRUEBA 14: Porcentaje negativo en calcular descuento
+def test_calcular_descuento_porcentaje_negativo():
+    # Arrange
+    precio = 100
+    porcentaje = -10
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        calcular_descuento(precio, porcentaje)
+
+
+# PRUEBA 15: Precio negativo en precio final
+def test_precio_final_precio_negativo():
+    # Arrange
+    precio = -100
+    impuesto = 19
+    descuento = 10
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        calcular_precio_final(precio, impuesto, descuento)
+
+
+# PRUEBA 16: Impuesto negativo
+def test_precio_final_impuesto_negativo():
+    # Arrange
+    precio = 100
+    impuesto = -19
+    descuento = 10
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        calcular_precio_final(precio, impuesto, descuento)
+
+
+# PRUEBA 17: Descuento superior al 100%
+def test_precio_final_descuento_invalido():
+    # Arrange
+    precio = 100
+    impuesto = 19
+    descuento = 120
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        calcular_precio_final(precio, impuesto, descuento)
+
+
+# PRUEBA 18: Volumen de 10 unidades
+def test_descuento_volumen_10_unidades():
+    # Arrange
+    cantidad = 10
+    precio_unitario = 1000
+    esperado = 9500
+
+    # Act
+    resultado = descuento_por_volumen(cantidad, precio_unitario)
+
+    # Assert
+    assert resultado == pytest.approx(esperado)
+
+
+# PRUEBA 19: Volumen de 50 unidades
+def test_descuento_volumen_50_unidades():
+    # Arrange
+    cantidad = 50
+    precio_unitario = 1000
+    esperado = 42500
+
+    # Act
+    resultado = descuento_por_volumen(cantidad, precio_unitario)
+
+    # Assert
+    assert resultado == pytest.approx(esperado)
+
+
+# PRUEBA 20: Volumen sin descuento
+def test_descuento_volumen_5_unidades():
+    # Arrange
+    cantidad = 5
+    precio_unitario = 1000
+    esperado = 5000
+
+    # Act
+    resultado = descuento_por_volumen(cantidad, precio_unitario)
+
+    # Assert
+    assert resultado == pytest.approx(esperado)
+
+
+# PRUEBA 21: Cantidad negativa
+def test_descuento_volumen_cantidad_negativa():
+    # Arrange
+    cantidad = -5
+    precio_unitario = 1000
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        descuento_por_volumen(cantidad, precio_unitario)
+
+
+# PRUEBA 22: Precio unitario negativo
+def test_descuento_volumen_precio_negativo():
+    # Arrange
+    cantidad = 20
+    precio_unitario = -1000
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        descuento_por_volumen(cantidad, precio_unitario)
+
+
+# PRUEBA 23: Descuento acumulativo inválido
+def test_descuento_acumulativo_invalido():
+    # Arrange
+    precio = 100000
+    descuentos = [10, 120]
+
+    # Act + Assert
+    with pytest.raises(ValueError):
+        descuento_cumulativo(precio, descuentos)
